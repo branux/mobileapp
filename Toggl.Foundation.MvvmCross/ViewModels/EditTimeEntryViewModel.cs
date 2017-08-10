@@ -33,6 +33,8 @@ namespace Toggl.Foundation.MvvmCross.ViewModels
         [DependsOn(nameof(Project))]
         public bool HasProject => !string.IsNullOrEmpty(Project);
 
+        public string Task { get; set; }
+
         [DependsOn(nameof(StartTime), nameof(EndTime))]
         public TimeSpan Duration
             => (EndTime ?? timeService.CurrentDateTime) - StartTime;
