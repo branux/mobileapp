@@ -20,6 +20,10 @@ namespace Toggl.Daneel.ViewControllers
         {
             base.ViewDidLoad();
 
+            var size = CGSize.Empty;
+            size.Height = View.Frame.Height;
+            PreferredContentSize = size;
+
             resizeSwitch();
 
             var durationConverter = new TimeSpanToDurationWithUnitValueConverter();
