@@ -45,7 +45,7 @@ namespace Toggl.Daneel.ViewControllers
             bindingSet.Bind(StartDateLabel)
                       .To(vm => vm.StartTime)
                       .WithConversion(dateTimeConverter);
-            bindingSet.Bind()
+            bindingSet.Bind(StartTimeLabel)
                       .To(vm => vm.StartTime)
                       .WithConversion(timeConverter);
             bindingSet.Bind(BillableSwitch)
