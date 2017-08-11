@@ -82,7 +82,7 @@ namespace Toggl.Ultrawave.Tests.Integration.BaseTests
         {
             var (api, _) = await SetupTestUser();
 
-            await CallEndpointWith(api, DateTimeOffset.Now.AddMonths(-3).AddDays(1));
+            await CallEndpointWith(api, DateTimeOffset.Now.AddDays(-85));
         }
 
         [Fact, LogTestInfo]
@@ -91,7 +91,7 @@ namespace Toggl.Ultrawave.Tests.Integration.BaseTests
             var (api, _) = await SetupTestUser();
 
             Action callingEndpointWithBadThreshold = async () =>
-                await CallEndpointWith(api, DateTimeOffset.Now.AddMonths(-3).AddDays(-1));
+                await CallEndpointWith(api, DateTimeOffset.Now.AddDays(-95));
 
             callingEndpointWithBadThreshold.ShouldThrow<BadRequestException>();
         }
