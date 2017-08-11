@@ -33,7 +33,7 @@ namespace Toggl.Ultrawave.Tests.Integration.BaseTests
             var firstModelPosted = await PostModelToApi(api, firstModel);
 
             // make sure we get different `At` dates
-            await Task.Delay(2);
+            await Task.Delay(TimeSpan.FromSeconds(2));
 
             var secondModel = MakeUniqueModel(api, user);
             var secondModelPosted = await PostModelToApi(api, secondModel);
