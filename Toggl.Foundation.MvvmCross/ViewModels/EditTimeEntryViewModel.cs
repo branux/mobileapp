@@ -43,7 +43,9 @@ namespace Toggl.Foundation.MvvmCross.ViewModels
             set
             {
                 endTime = value;
-                if (endTime != null)
+                if (endTime == null)
+                    subscribeToTimeServiceTicks();
+                else
                     tickingDisposable.Dispose();
             }
         }
@@ -91,12 +93,16 @@ namespace Toggl.Foundation.MvvmCross.ViewModels
         public override async Task Initialize()
         {
             await base.Initialize();
-            
+
             if (EndTime == null)
-                tickingDisposable = timeService
-                    .CurrentDateTimeObservable
-                    .Subscribe(_ => RaisePropertyChanged(nameof(Duration )));
-                
+                subscribeToTimeServiceTicks();
+        }
+
+        private void subscribeToTimeServiceTicks()
+        {
+            tickingDisposable = timeService
+                .CurrentDateTimeObservable
+                .Subscribe(_ => RaisePropertyChanged(nameof(Duration)));
         }
 
         private void delete()
