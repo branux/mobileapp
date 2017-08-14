@@ -18,12 +18,6 @@ namespace Toggl.Ultrawave.Tests.Integration
     {
         public class BackendEnumValuesCheckTest : AuthenticatedEndpointBaseTests<List<(WorkspaceFeatureId FeatureId, string Name)>>
         {
-            /* 
-             * Unfortunately, direct access to WorkspaceFeaturesApi must be used here 
-             * to prevent polluting the IWorkspaceFeatures interface with methods that 
-             * should be visible only to the tests and invisible to the rest of the app.
-             */
-
             protected override IObservable<List<(WorkspaceFeatureId FeatureId, string Name)>> CallEndpointWith(ITogglApi togglApi)
                 => (togglApi.WorkspaceFeatures as WorkspaceFeaturesApi).GetAllRaw();
 
