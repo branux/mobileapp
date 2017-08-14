@@ -26,5 +26,8 @@ namespace Toggl.Daneel.Extensions
 
         public static string BindAnimatedVisibility(this UIView self)
             => ViewAnimatedVisibilityTargetBinding.BindingName;
+
+        public static string BindBackgroundColor(this UIView self)
+            => ViewBackgroundColorTargetBinding.BindingName;
     }
 }
