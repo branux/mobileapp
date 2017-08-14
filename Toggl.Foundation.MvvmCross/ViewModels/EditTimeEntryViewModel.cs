@@ -25,13 +25,7 @@ namespace Toggl.Foundation.MvvmCross.ViewModels
 
         public string Description { get; set; }
 
-        [DependsOn(nameof(Description))]
-        public bool HasDescription => !string.IsNullOrEmpty(Description);
-
         public string Project { get; set; }
-
-        [DependsOn(nameof(Project))]
-        public bool HasProject => !string.IsNullOrEmpty(Project);
 
         public string Task { get; set; }
 
@@ -44,9 +38,6 @@ namespace Toggl.Foundation.MvvmCross.ViewModels
         public DateTimeOffset? EndTime { get; set; }
 
         public List<string> Tags { get; set; }
-
-        [DependsOn(nameof(Tags))]
-        public bool HasTags => Tags.Any();
 
         public bool Billable { get; set; }
 
