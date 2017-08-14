@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using Toggl.Ultrawave.Models;
+using Toggl.Multivac.Models;
 
 namespace Toggl.Ultrawave.ApiClients
 {
     public interface IClientsApi
     {
-        IObservable<List<Client>> GetAll();
+        IObservable<List<IClient>> GetAll();
         IObservable<List<Client>> GetAllSince(DateTimeOffset threshold);
-        IObservable<Client> Create(Client client);
+        IObservable<IClient> Create(IClient client);
     }
 }
