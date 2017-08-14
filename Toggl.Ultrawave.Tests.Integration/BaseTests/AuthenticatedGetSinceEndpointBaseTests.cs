@@ -4,10 +4,10 @@ using System.Linq.Expressions;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
 using FluentAssertions;
+using Toggl.Multivac.Models;
 using Toggl.Ultrawave.Exceptions;
 using Xunit;
 using Task = System.Threading.Tasks.Task;
-using UserModel = Toggl.Ultrawave.Models.User;
 
 namespace Toggl.Ultrawave.Tests.Integration.BaseTests
 {
@@ -21,13 +21,13 @@ namespace Toggl.Ultrawave.Tests.Integration.BaseTests
 
         protected abstract DateTimeOffset AtDateOf(T model);
 
-        protected abstract T MakeUniqueModel(ITogglApi api, UserModel user);
+        protected abstract T MakeUniqueModel(ITogglApi api, IUser user);
 
         protected abstract IObservable<T> PostModelToApi(ITogglApi api, T model);
 
         protected abstract Expression<Func<T, bool>> ModelWithSameAttributesAs(T model);
 
-        private async Task<(T, T)> setUpModels(ITogglApi api, UserModel user)
+        private async Task<(T, T)> setUpModels(ITogglApi api, IUser user)
         {
             var firstModel = MakeUniqueModel(api, user);
             var firstModelPosted = await PostModelToApi(api, firstModel);

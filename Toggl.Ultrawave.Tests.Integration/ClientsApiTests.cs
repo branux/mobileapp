@@ -14,10 +14,9 @@ namespace Toggl.Ultrawave.Tests.Integration
 {
     public class ClientsApiTests
     {
-        private static Expression<Func<Client, bool>> clientWithSameIdNameAndWorkspaceAs(Client client)
+        private static Expression<Func<IClient, bool>> clientWithSameIdNameAndWorkspaceAs(IClient client)
             => c => c.Id == client.Id && c.Name == client.Name && c.WorkspaceId == client.WorkspaceId;
-    public class ClientsApiTests
-    {
+
         public class TheGetAllMethod : AuthenticatedEndpointBaseTests<List<IClient>>
         {
             protected override IObservable<List<IClient>> CallEndpointWith(ITogglApi togglApi)
@@ -41,20 +40,20 @@ namespace Toggl.Ultrawave.Tests.Integration
             }
         }
 
-        public class TheGetAllSinceMethod : AuthenticatedGetSinceEndpointBaseTests<Client>
+        public class TheGetAllSinceMethod : AuthenticatedGetSinceEndpointBaseTests<IClient>
         {
-            protected override IObservable<List<Client>> CallEndpointWith(ITogglApi togglApi, DateTimeOffset threshold)
+            protected override IObservable<List<IClient>> CallEndpointWith(ITogglApi togglApi, DateTimeOffset threshold)
                 => togglApi.Clients.GetAllSince(threshold);
 
-            protected override DateTimeOffset AtDateOf(Client model) => model.At;
+            protected override DateTimeOffset AtDateOf(IClient model) => model.At;
 
-            protected override Client MakeUniqueModel(ITogglApi api, UserModel user)
+            protected override IClient MakeUniqueModel(ITogglApi api, IUser user)
                 => new Client {Name = Guid.NewGuid().ToString(), WorkspaceId = user.DefaultWorkspaceId};
 
-            protected override IObservable<Client> PostModelToApi(ITogglApi api, Client model)
+            protected override IObservable<IClient> PostModelToApi(ITogglApi api, IClient model)
                 => api.Clients.Create(model);
 
-            protected override Expression<Func<Client, bool>> ModelWithSameAttributesAs(Client model)
+            protected override Expression<Func<IClient, bool>> ModelWithSameAttributesAs(IClient model)
                 => clientWithSameIdNameAndWorkspaceAs(model);
         }
 

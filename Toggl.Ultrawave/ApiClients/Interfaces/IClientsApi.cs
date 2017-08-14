@@ -7,7 +7,7 @@ namespace Toggl.Ultrawave.ApiClients
     public interface IClientsApi
     {
         IObservable<List<IClient>> GetAll();
-        IObservable<List<Client>> GetAllSince(DateTimeOffset threshold);
+        IObservable<List<IClient>> GetAllSince(DateTimeOffset threshold);
         IObservable<IClient> Create(IClient client);
     }
 }
