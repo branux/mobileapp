@@ -1,9 +1,18 @@
-﻿using MvvmCross.Platform.UI;
+﻿using System.Globalization;
+using MvvmCross.Platform.UI;
 
 namespace Toggl.Foundation.MvvmCross.Helper
 {
     public static class Color
     {
+        public static MvxColor FromHex(string hex)
+        {
+            var hexValue = hex.StartsWith("#") ? hex.Substring(1, hex.Length - 1) : hex;
+            var color = int.Parse(hex.Replace("#", ""), NumberStyles.HexNumber);
+
+            return hexValue.Length == 6 ? new MvxColor(color, 255) : new MvxColor(color);
+        }
+
         private static readonly MvxColor lightishGreen = new MvxColor(76, 217, 100);
         private static readonly MvxColor steel = new MvxColor(142, 142, 147);
         private static readonly MvxColor darkMint = new MvxColor(76, 190, 100);
