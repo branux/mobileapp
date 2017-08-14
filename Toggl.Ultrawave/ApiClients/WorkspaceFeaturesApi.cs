@@ -25,8 +25,9 @@ namespace Toggl.Ultrawave.ApiClients
         public IObservable<List<IWorkspaceFeature>> GetAll()
         {
             return CreateObservable<List<WorkspaceFeatureCollectionDTO>>(endPoints.Get, AuthHeader)
-                .Select(list =>
-                    list.ToWorkspaceFeatures().ToList());
+                .Select(list => list
+                    .ToWorkspaceFeatures()
+                    .ToList());
         }
 
         public IObservable<List<IWorkspaceFeature>> GetEnabledFeatures()
@@ -62,7 +63,11 @@ namespace Toggl.Ultrawave.ApiClients
         public IObservable<List<(WorkspaceFeatureId FeatureId, string Name)>> GetAllRaw()
         {
             return CreateObservable<List<WorkspaceFeatureCollectionDTO>>(endPoints.Get, AuthHeader)
-                .Select(list => list.SelectMany(x => x.Features).Select(f => (f.FeatureId, f.Name)).Distinct().ToList());
+                .Select(list => list
+                    .SelectMany(x => x.Features)
+                    .Select(f => (f.FeatureId, f.Name))
+                    .Distinct()
+                    .ToList());
         }
 
         internal class WorkspaceFeatureCollectionDTO
