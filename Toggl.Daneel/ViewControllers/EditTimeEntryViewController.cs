@@ -25,7 +25,7 @@ namespace Toggl.Daneel.ViewControllers
 
             DurationLabel.Font = DurationLabel.Font.GetMonospacedDigitFont();
 
-            PreferredContentSize = new CGSize { Height = View.Frame.Height }; 
+            PreferredContentSize = View.Frame.Size;
 
             resizeSwitch();
 
