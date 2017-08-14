@@ -25,6 +25,7 @@
                 <outlet property="ProjectLabel" destination="m05-Z5-Fo7" id="yYs-4S-4kv"/>
                 <outlet property="StartDateLabel" destination="y6q-c6-GFt" id="cbS-Nq-yxF"/>
                 <outlet property="StartTimeLabel" destination="aSd-9a-u9n" id="n7W-Gr-Fg5"/>
+                <outlet property="TagsLabel" destination="CbI-xx-4Aq" id="nCm-54-GIU"/>
                 <outlet property="TaskLabel" destination="bvm-VU-mil" id="Mze-Cr-eKr"/>
                 <outlet property="view" destination="2" id="RRd-Eg-VrN"/>
             </connections>

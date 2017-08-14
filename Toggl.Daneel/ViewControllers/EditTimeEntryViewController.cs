@@ -1,6 +1,9 @@
 ﻿using CoreGraphics;
+using MvvmCross.Binding;
 using MvvmCross.Binding.BindingContext;
+using MvvmCross.Binding.iOS;
 using MvvmCross.iOS.Views;
+using MvvmCross.Plugins.Visibility;
 using Toggl.Daneel.Presentation.Attributes;
 using Toggl.Foundation.MvvmCross.Converters;
 using Toggl.Foundation.MvvmCross.ViewModels;
@@ -27,8 +30,10 @@ namespace Toggl.Daneel.ViewControllers
             resizeSwitch();
 
             var durationConverter = new TimeSpanToDurationWithUnitValueConverter();
-            var dateTimeConverter = new DateToTitleStringValueConverter();
+            var dateConverter = new DateToTitleStringValueConverter();
             var timeConverter = new DateTimeToTimeConverter();
+            var visibilityConverter = new MvxVisibilityValueConverter();
+            var inverterVisibilityConverter = new MvxInvertedVisibilityValueConverter();
 
             var bindingSet = this.CreateBindingSet<EditTimeEntryViewController, EditTimeEntryViewModel>();
 
@@ -44,18 +49,52 @@ namespace Toggl.Daneel.ViewControllers
                       .WithConversion(durationConverter);
             bindingSet.Bind(StartDateLabel)
                       .To(vm => vm.StartTime)
-                      .WithConversion(dateTimeConverter);
+                      .WithConversion(dateConverter);
             bindingSet.Bind(StartTimeLabel)
                       .To(vm => vm.StartTime)
                       .WithConversion(timeConverter);
             bindingSet.Bind(BillableSwitch)
                       .To(vm => vm.Billable);
-
+            
             //Commands
             bindingSet.Bind(CloseButton)
                       .To(vm => vm.CloseCommand);
             bindingSet.Bind(DeleteButton)
                       .To(vm => vm.DeleteCommand);
+
+            //Description visibility
+            bindingSet.Bind(AddDescriptionView)
+                      .For(v => v.BindVisible())
+                      .To(vm => vm.Description)
+                      .WithConversion(visibilityConverter);
+            bindingSet.Bind(DescriptionLabel)
+                      .For(v => v.BindVisible())
+                      .To(vm => vm.Description)
+                      .WithConversion(inverterVisibilityConverter);
+
+            //Project visibility
+            bindingSet.Bind(AddProjectAndTaskView)
+                      .For(v => v.BindVisible())
+                      .To(vm => vm.Project)
+                      .WithConversion(visibilityConverter);
+            bindingSet.Bind(ProjectLabel)
+                      .For(v => v.BindVisible())
+                      .To(vm => vm.Project)
+                      .WithConversion(inverterVisibilityConverter);
+            bindingSet.Bind(ProjectDot)
+                      .For(v => v.BindVisible())
+                      .To(vm => vm.Project)
+                      .WithConversion(inverterVisibilityConverter);
+
+            //Tags visibility
+            bindingSet.Bind(AddTagsView)
+                      .For(v => v.BindVisible())
+                      .To(vm => vm.Tags)
+                      .WithConversion(visibilityConverter);
+            bindingSet.Bind(TagsLabel)
+                      .For(v => v.BindVisible())
+                      .To(vm => vm.Tags)
+                      .WithConversion(inverterVisibilityConverter);
 
             bindingSet.Apply();
         }

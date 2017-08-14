@@ -52,10 +52,18 @@ namespace Toggl.Daneel.ViewControllers
 		UIKit.UILabel StartTimeLabel { get; set; }
 
 		[Outlet]
+		UIKit.UILabel TagsLabel { get; set; }
+
+		[Outlet]
 		UIKit.UILabel TaskLabel { get; set; }
 		
 		void ReleaseDesignerOutlets ()
 		{
+			if (TagsLabel != null) {
+				TagsLabel.Dispose ();
+				TagsLabel = null;
+			}
+
 			if (AddDescriptionView != null) {
 				AddDescriptionView.Dispose ();
 				AddDescriptionView = null;

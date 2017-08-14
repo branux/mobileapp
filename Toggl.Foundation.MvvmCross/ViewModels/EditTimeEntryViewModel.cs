@@ -69,6 +69,8 @@ namespace Toggl.Foundation.MvvmCross.ViewModels
             DeleteCommand = new MvxCommand(delete);
             ConfirmCommand = new MvxCommand(confirm);
             CloseCommand = new MvxAsyncCommand(close);
+
+            timeService.CurrentDateTimeObservable.Subscribe(_ => RaisePropertyChanged(nameof(Duration)));
         }
 
         public override async Task Initialize(ITimeEntry parameter)
@@ -84,8 +86,6 @@ namespace Toggl.Foundation.MvvmCross.ViewModels
 
             if (parameter.ProjectId != null)
                 Project = (await dataSource.Projects.GetById((int)parameter.ProjectId)).Name;
-
-            timeService.CurrentDateTimeObservable.Subscribe(_ => RaisePropertyChanged(nameof(Duration)));
         }
 
         private void delete()
