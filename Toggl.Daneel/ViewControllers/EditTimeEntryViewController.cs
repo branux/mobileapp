@@ -7,6 +7,7 @@ using MvvmCross.Plugins.Visibility;
 using Toggl.Daneel.Presentation.Attributes;
 using Toggl.Foundation.MvvmCross.Converters;
 using Toggl.Foundation.MvvmCross.ViewModels;
+using MvvmCross.Plugins.Color;
 
 namespace Toggl.Daneel.ViewControllers
 {
@@ -34,6 +35,7 @@ namespace Toggl.Daneel.ViewControllers
             var timeConverter = new DateTimeToTimeConverter();
             var visibilityConverter = new MvxVisibilityValueConverter();
             var inverterVisibilityConverter = new MvxInvertedVisibilityValueConverter();
+            var colorConverter = new MvxRGBValueConverter();
 
             var bindingSet = this.CreateBindingSet<EditTimeEntryViewController, EditTimeEntryViewModel>();
 
@@ -89,6 +91,12 @@ namespace Toggl.Daneel.ViewControllers
                       .For(v => v.BindVisible())
                       .To(vm => vm.Tags)
                       .WithConversion(inverterVisibilityConverter);
+
+            //Colors
+            bindingSet.Bind(ProjectDot)
+                      .For(v => v.BackgroundColor)
+                      .To(vm => vm.ProjectColor)
+                      .WithConversion(colorConverter);
 
             bindingSet.Apply();
         }

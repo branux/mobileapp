@@ -28,6 +28,8 @@ namespace Toggl.Foundation.MvvmCross.ViewModels
 
         public string Project { get; set; }
 
+        public string ProjectColor { get; set; }
+
         public string Task { get; set; }
 
         [DependsOn(nameof(StartTime), nameof(EndTime))]
@@ -85,9 +87,14 @@ namespace Toggl.Foundation.MvvmCross.ViewModels
             EndTime = parameter.Stop;
             Billable = parameter.Billable;
             Tags = parameter.Tags?.ToList() ?? new List<string>();
-            
+
             if (parameter.ProjectId != null)
-                Project = (await dataSource.Projects.GetById((int)parameter.ProjectId)).Name;
+            {
+                var project = await dataSource.Projects.GetById((int)parameter.ProjectId);
+                Project = project.Name;
+                ProjectColor = ProjectColor;
+                
+            }
         }
 
         public override async Task Initialize()
