@@ -8,12 +8,12 @@ using MvvmCross.Core.ViewModels;
 using PropertyChanged;
 using Toggl.Foundation.DataSources;
 using Toggl.Multivac;
-using Toggl.Multivac.Models;
+using Toggl.PrimeRadiant.Models;
 using static Toggl.Multivac.Extensions.ObservableExtensions;
 
 namespace Toggl.Foundation.MvvmCross.ViewModels
 {
-    public class EditTimeEntryViewModel : MvxViewModel<ITimeEntry>
+    public class EditTimeEntryViewModel : MvxViewModel<IDatabaseTimeEntry>
     {
         private readonly ITogglDataSource dataSource;
         private readonly IMvxNavigationService navigationService;
@@ -77,7 +77,7 @@ namespace Toggl.Foundation.MvvmCross.ViewModels
             CloseCommand = new MvxAsyncCommand(close);
         }
 
-        public override async Task Initialize(ITimeEntry parameter)
+        public override async Task Initialize(IDatabaseTimeEntry parameter)
         {
             await base.Initialize();
 
@@ -87,12 +87,11 @@ namespace Toggl.Foundation.MvvmCross.ViewModels
             EndTime = parameter.Stop;
             Billable = parameter.Billable;
             Tags = parameter.Tags?.ToList() ?? new List<string>();
-
+            
             if (parameter.ProjectId != null)
             {
-                var project = await dataSource.Projects.GetById((int)parameter.ProjectId);
-                Project = project.Name;
-                ProjectColor = ProjectColor;
+                Project = parameter.Project.Name;
+                ProjectColor = parameter.Project.Color;
                 
             }
         }
