@@ -148,5 +148,41 @@ namespace Toggl.Foundation {
                 return ResourceManager.GetString("Yesterday", resourceCulture);
             }
         }
+        
+        public static string IncorrectEmailOrPassword {
+            get {
+                return ResourceManager.GetString("IncorrectEmailOrPassword", resourceCulture);
+            }
+        }
+        
+        public static string GenericLoginError {
+            get {
+                return ResourceManager.GetString("GenericLoginError", resourceCulture);
+            }
+        }
+        
+        public static string StartTimeEntryPlaceholder {
+            get {
+                return ResourceManager.GetString("StartTimeEntryPlaceholder", resourceCulture);
+            }
+        }
+        
+        public static string Settings {
+            get {
+                return ResourceManager.GetString("Settings", resourceCulture);
+            }
+        }
+        
+        public static string UnitMin {
+            get {
+                return ResourceManager.GetString("UnitMin", resourceCulture);
+            }
+        }
+        
+        public static string UnitSecond {
+            get {
+                return ResourceManager.GetString("UnitSecond", resourceCulture);
+            }
+        }
     }
 }

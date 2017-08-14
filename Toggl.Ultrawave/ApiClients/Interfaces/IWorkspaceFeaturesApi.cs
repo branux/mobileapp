@@ -9,7 +9,7 @@ namespace Toggl.Ultrawave.ApiClients
     {
         IObservable<List<WorkspaceFeature>> GetAll();
         IObservable<List<WorkspaceFeature>> GetEnabledFeatures();
-        IObservable<List<WorkspaceFeature>> GetEnabledFeaturesForWorkspace(int workspaceId);
-        IObservable<bool> IsFeatureEnabled(int workspaceId, WorkspaceFeatureId featureId);
+        IObservable<List<WorkspaceFeature>> GetEnabledFeaturesForWorkspace(long workspaceId);
+        IObservable<bool> IsFeatureEnabled(long workspaceId, WorkspaceFeatureId featureId);
     }
 }

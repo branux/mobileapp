@@ -1,15 +1,15 @@
-﻿﻿using System;
+﻿﻿﻿using System;
 using System.Collections.Generic;
-using Toggl.Multivac;
 using Toggl.PrimeRadiant.Models;
+using Toggl.Multivac;
 
 namespace Toggl.Foundation.Models
 {
     internal partial class Client : IDatabaseClient
     {
-        public int Id { get; }
+        public long Id { get; }
 
-        public int WorkspaceId { get; }
+        public long WorkspaceId { get; }
 
         public string Name { get; }
 
@@ -17,16 +17,18 @@ namespace Toggl.Foundation.Models
 
         public DateTimeOffset? ServerDeletedAt { get; }
 
+        public IDatabaseWorkspace Workspace { get; }
+
         public bool IsDirty { get; }
     }
 
     internal partial class Project : IDatabaseProject
     {
-        public int Id { get; }
+        public long Id { get; }
 
-        public int WorkspaceId { get; }
+        public long WorkspaceId { get; }
 
-        public int? ClientId { get; }
+        public long? ClientId { get; }
 
         public string Name { get; }
 
@@ -48,39 +50,45 @@ namespace Toggl.Foundation.Models
 
         public int? EstimatedHours { get; }
 
-        public int? Rate { get; }
+        public double? Rate { get; }
 
         public string Currency { get; }
 
         public int? ActualHours { get; }
+
+        public IDatabaseClient Client { get; }
+
+        public IDatabaseWorkspace Workspace { get; }
 
         public bool IsDirty { get; }
     }
 
     internal partial class Tag : IDatabaseTag
     {
-        public int Id { get; }
+        public long Id { get; }
 
-        public int WorkspaceId { get; }
+        public long WorkspaceId { get; }
 
         public string Name { get; }
 
         public DateTimeOffset At { get; }
+
+        public IDatabaseWorkspace Workspace { get; }
 
         public bool IsDirty { get; }
     }
 
     internal partial class Task : IDatabaseTask
     {
-        public int Id { get; }
+        public long Id { get; }
 
         public string Name { get; }
 
-        public int ProjectId { get; }
+        public long ProjectId { get; }
 
-        public int WorkspaceId { get; }
+        public long WorkspaceId { get; }
 
-        public int? UserId { get; }
+        public long? UserId { get; }
 
         public int EstimatedSeconds { get; }
 
@@ -90,18 +98,24 @@ namespace Toggl.Foundation.Models
 
         public int TrackedSeconds { get; }
 
+        public IDatabaseUser User { get; }
+
+        public IDatabaseProject Project { get; }
+
+        public IDatabaseWorkspace Workspace { get; }
+
         public bool IsDirty { get; }
     }
 
     internal partial class TimeEntry : IDatabaseTimeEntry
     {
-        public int Id { get; }
+        public long Id { get; }
 
-        public int WorkspaceId { get; }
+        public long WorkspaceId { get; }
 
-        public int? ProjectId { get; }
+        public long? ProjectId { get; }
 
-        public int? TaskId { get; }
+        public long? TaskId { get; }
 
         public bool Billable { get; }
 
@@ -121,20 +135,30 @@ namespace Toggl.Foundation.Models
 
         public DateTimeOffset? ServerDeletedAt { get; }
 
-        public int UserId { get; }
+        public long UserId { get; }
 
         public string CreatedWith { get; }
+
+        public bool IsDeleted { get; }
+
+        public IDatabaseTask Task { get; }
+
+        public IDatabaseUser User { get; }
+
+        public IDatabaseProject Project { get; }
+
+        public IDatabaseWorkspace Workspace { get; }
 
         public bool IsDirty { get; }
     }
 
     internal partial class User : IDatabaseUser
     {
-        public int Id { get; }
+        public long Id { get; }
 
         public string ApiToken { get; }
 
-        public int DefaultWorkspaceId { get; }
+        public long DefaultWorkspaceId { get; }
 
         public string Email { get; }
 
@@ -171,7 +195,7 @@ namespace Toggl.Foundation.Models
 
     internal partial class Workspace : IDatabaseWorkspace
     {
-        public int Id { get; }
+        public long Id { get; }
 
         public string Name { get; }
 

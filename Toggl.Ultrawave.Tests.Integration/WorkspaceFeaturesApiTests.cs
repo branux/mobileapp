@@ -66,7 +66,7 @@ namespace Toggl.Ultrawave.Tests.Integration
                     return CallEndpointWith(togglApi, user.DefaultWorkspaceId);
                 });
 
-            protected IObservable<List<WorkspaceFeature>> CallEndpointWith(ITogglApi togglApi, int workspaceId)
+            protected IObservable<List<WorkspaceFeature>> CallEndpointWith(ITogglApi togglApi, long workspaceId)
                 => togglApi.WorkspaceFeatures.GetEnabledFeaturesForWorkspace(workspaceId);
 
             [Fact, LogTestInfo]
@@ -77,7 +77,7 @@ namespace Toggl.Ultrawave.Tests.Integration
                 var features = await CallEndpointWith(togglClient, user.DefaultWorkspaceId);
 
                 var myWorkspaces = await togglClient.Workspaces.GetAll();
-                int unusedWorkspaceId = myWorkspaces.Max(w => w.Id) + 1;
+                var unusedWorkspaceId = myWorkspaces.Max(w => w.Id) + 1;
                 var unusedWorkspaceFeatures = await CallEndpointWith(togglClient, unusedWorkspaceId);
 
                 var distinctWorkspacesCount = features.Select(f => f.WorkspaceId).Distinct().Count();
@@ -99,7 +99,7 @@ namespace Toggl.Ultrawave.Tests.Integration
                     return CallEndpointWith(togglApi, user.DefaultWorkspaceId, WorkspaceFeatureId.Free);
                 });
 
-            protected IObservable<bool> CallEndpointWith(ITogglApi togglApi, int workspaceId, WorkspaceFeatureId featureId)
+            protected IObservable<bool> CallEndpointWith(ITogglApi togglApi, long workspaceId, WorkspaceFeatureId featureId)
                 => togglApi.WorkspaceFeatures.IsFeatureEnabled(workspaceId, featureId);
 
             [Fact, LogTestInfo]

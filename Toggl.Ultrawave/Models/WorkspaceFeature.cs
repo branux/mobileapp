@@ -9,9 +9,9 @@ namespace Toggl.Ultrawave.Models
     {
         // TODO: This property doesn't have a representation in Toggl API
         // So WorkspaceFeature either can't implement IBaseModel or a surrogate implementation must be found
-        public int Id { get; set; }
+        public long Id { get; set; }
 
-        public int WorkspaceId { get; set; }
+        public long WorkspaceId { get; set; }
 
         public WorkspaceFeatureId FeatureId { get; set; }
 

@@ -16,19 +16,23 @@ namespace Toggl.Daneel.ViewControllers
     {
         [Outlet]
         [GeneratedCode ("iOS Designer", "1.0")]
+        Toggl.Daneel.Views.ActivityIndicatorView ActivityIndicator { get; set; }
+
+        [Outlet]
+        [GeneratedCode ("iOS Designer", "1.0")]
         UIKit.NSLayoutConstraint BottomConstraint { get; set; }
 
         [Outlet]
         [GeneratedCode ("iOS Designer", "1.0")]
-        UIKit.UITextField Email { get; set; }
+        UIKit.UITextField EmailTextField { get; set; }
 
         [Outlet]
         [GeneratedCode ("iOS Designer", "1.0")]
-        UIKit.UIButton ForgotPassword { get; set; }
+        UIKit.UILabel ErrorLabel { get; set; }
 
         [Outlet]
         [GeneratedCode ("iOS Designer", "1.0")]
-        UIKit.UITextField Password { get; set; }
+        UIKit.UIButton ForgotPasswordButton { get; set; }
 
         [Outlet]
         [GeneratedCode ("iOS Designer", "1.0")]
@@ -36,28 +40,37 @@ namespace Toggl.Daneel.ViewControllers
 
         [Outlet]
         [GeneratedCode ("iOS Designer", "1.0")]
-        UIKit.UIImageView ShowPassword { get; set; }
+        UIKit.UITextField PasswordTextField { get; set; }
+
+        [Outlet]
+        [GeneratedCode ("iOS Designer", "1.0")]
+        UIKit.UIImageView ShowPasswordButton { get; set; }
 
         void ReleaseDesignerOutlets ()
         {
+            if (ActivityIndicator != null) {
+                ActivityIndicator.Dispose ();
+                ActivityIndicator = null;
+            }
+
             if (BottomConstraint != null) {
                 BottomConstraint.Dispose ();
                 BottomConstraint = null;
             }
 
-            if (Email != null) {
-                Email.Dispose ();
-                Email = null;
+            if (EmailTextField != null) {
+                EmailTextField.Dispose ();
+                EmailTextField = null;
             }
 
-            if (ForgotPassword != null) {
-                ForgotPassword.Dispose ();
-                ForgotPassword = null;
+            if (ErrorLabel != null) {
+                ErrorLabel.Dispose ();
+                ErrorLabel = null;
             }
 
-            if (Password != null) {
-                Password.Dispose ();
-                Password = null;
+            if (ForgotPasswordButton != null) {
+                ForgotPasswordButton.Dispose ();
+                ForgotPasswordButton = null;
             }
 
             if (PasswordManagerButton != null) {
@@ -65,9 +78,14 @@ namespace Toggl.Daneel.ViewControllers
                 PasswordManagerButton = null;
             }
 
-            if (ShowPassword != null) {
-                ShowPassword.Dispose ();
-                ShowPassword = null;
+            if (PasswordTextField != null) {
+                PasswordTextField.Dispose ();
+                PasswordTextField = null;
+            }
+
+            if (ShowPasswordButton != null) {
+                ShowPasswordButton.Dispose ();
+                ShowPasswordButton = null;
             }
         }
     }

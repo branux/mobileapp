@@ -10,12 +10,13 @@ using Toggl.Foundation.Login;
 using Toggl.Foundation.MvvmCross.Parameters;
 using Toggl.Foundation.MvvmCross.Services;
 using Toggl.Multivac;
+using Toggl.Ultrawave.Exceptions;
 using EmailType = Toggl.Multivac.Email;
 using LoginType = Toggl.Foundation.MvvmCross.Parameters.LoginParameter.LoginType;
 
 namespace Toggl.Foundation.MvvmCross.ViewModels
 {
-    public class LoginViewModel : BaseViewModel<LoginParameter>
+    public class LoginViewModel : MvxViewModel<LoginParameter>
     {
         public const int EmailPage = 0;
         public const int PasswordPage = 1;
@@ -29,9 +30,16 @@ namespace Toggl.Foundation.MvvmCross.ViewModels
 
         private EmailType email = EmailType.Invalid;
 
+        public string Title { get; private set; }
+
         public string Email { get; set; } = "";
 
         public string Password { get; set; } = "";
+
+        public string ErrorText { get; set; } = "";
+
+        [DependsOn(nameof(ErrorText))]
+        public bool HasError => !string.IsNullOrEmpty(ErrorText);
 
         public int CurrentPage { get; private set; } = EmailPage;
 
@@ -54,6 +62,9 @@ namespace Toggl.Foundation.MvvmCross.ViewModels
 
         [DependsOn(nameof(CurrentPage))]
         public bool IsPasswordPage => CurrentPage == PasswordPage;
+
+        [DependsOn(nameof(IsPasswordPage), nameof(IsLoading))]
+        public bool ShowPasswordButtonVisible => IsPasswordPage && !IsLoading;
 
         [DependsOn(nameof(CurrentPage), nameof(Password))]
         public bool NextIsEnabled
@@ -99,6 +110,7 @@ namespace Toggl.Foundation.MvvmCross.ViewModels
             if (IsPasswordPage) login();
 
             CurrentPage = PasswordPage;
+            ErrorText = "";
         }
 
         private void back()
@@ -107,6 +119,7 @@ namespace Toggl.Foundation.MvvmCross.ViewModels
                 navigationService.Close(this);
 
             CurrentPage = EmailPage;
+            ErrorText = "";
         }
 
         private void togglePasswordVisibility()
@@ -154,6 +167,9 @@ namespace Toggl.Foundation.MvvmCross.ViewModels
 
         private void onError(Exception ex)
         {
+            ErrorText = ex is ForbiddenException ? Resources.IncorrectEmailOrPassword
+                                                 : Resources.GenericLoginError;
+
             onCompleted();
         }
 

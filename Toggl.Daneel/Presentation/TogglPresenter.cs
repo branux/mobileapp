@@ -5,6 +5,8 @@ using MvvmCross.iOS.Views;
 using MvvmCross.iOS.Views.Presenters;
 using MvvmCross.iOS.Views.Presenters.Attributes;
 using Toggl.Daneel.Extensions;
+using Toggl.Daneel.Presentation.Attributes;
+using Toggl.Daneel.Presentation.Transition;
 using Toggl.Daneel.ViewControllers;
 using Toggl.Daneel.ViewControllers.Navigation;
 using Toggl.Foundation.MvvmCross.Helper;
@@ -15,7 +17,9 @@ namespace Toggl.Daneel.Presentation
 {
     public class TogglPresenter : MvxIosViewPresenter
     {
-        private static readonly CATransition FadeAnimation = new CATransition
+        private FromBottomTransitionDelegate FromBottomTransitionDelegate = new FromBottomTransitionDelegate();
+
+        private CATransition FadeAnimation = new CATransition
         {
             Duration = Animation.Timings.EnterTiming,
             Type = CAAnimation.TransitionFade,
@@ -32,7 +36,8 @@ namespace Toggl.Daneel.Presentation
         {
             base.RegisterAttributeTypes();
 
-            _attributeTypesToShowMethodDictionary.Add(typeof(NestedPresentationAttribute), ShowNestedViewController);
+            AttributeTypesToShowMethodDictionary.Add(typeof(NestedPresentationAttribute), ShowNestedViewController);
+            AttributeTypesToShowMethodDictionary.Add(typeof(ModalCardPresentationAttribute), ShowModalCardViewController);
         }
 
         protected virtual void ShowNestedViewController(UIViewController viewController, MvxBasePresentationAttribute attribute, MvxViewModelRequest request)
@@ -47,6 +52,14 @@ namespace Toggl.Daneel.Presentation
             viewController.DidMoveToParentViewController(mainViewController);
         }
 
+        protected virtual void ShowModalCardViewController(UIViewController viewController, MvxBasePresentationAttribute attribute, MvxViewModelRequest request)
+        {
+            viewController.ModalPresentationStyle = UIModalPresentationStyle.Custom;
+            viewController.TransitioningDelegate = FromBottomTransitionDelegate;
+            MasterNavigationController.PresentViewController(viewController, true, null);
+            FromBottomTransitionDelegate.WireToViewController(viewController);
+        }
+
         protected override void ShowChildViewController(UIViewController viewController, MvxChildPresentationAttribute attribute, MvxViewModelRequest request)
         {
             if (request.ViewModelType == typeof(LoginViewModel))
@@ -57,6 +70,23 @@ namespace Toggl.Daneel.Presentation
             }
 
             base.ShowChildViewController(viewController, attribute, request);
+        }
+
+        protected override void SetWindowRootViewController(UIViewController controller)
+        {
+            UIView.Transition(
+                _window,
+                Animation.Timings.EnterTiming,
+                UIViewAnimationOptions.TransitionCrossDissolve,
+                () => _window.RootViewController = controller,
+                () =>
+                {
+                    if (controller is TogglNavigationController navigation && 
+                        navigation.ViewControllers.FirstOrDefault() is MainViewController mainViewController)
+                        mainViewController.AnimatePlayButton();
+                }
+            );
+
         }
 
         public override void Close(IMvxViewModel toClose)

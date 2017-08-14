@@ -41,9 +41,10 @@ namespace Toggl.Daneel.ViewControllers
             var bindingSet = this.CreateBindingSet<LoginViewController, LoginViewModel>();
 
             //Text
-            bindingSet.Bind(Email).To(vm => vm.Email);
-            bindingSet.Bind(Password).To(vm => vm.Password);
-            bindingSet.Bind(Password)
+            bindingSet.Bind(EmailTextField).To(vm => vm.Email);
+            bindingSet.Bind(PasswordTextField).To(vm => vm.Password);
+            bindingSet.Bind(ErrorLabel).To(vm => vm.ErrorText);
+            bindingSet.Bind(PasswordTextField)
                       .For(v => v.BindSecureTextEntry())
                       .To(vm => vm.IsPasswordMasked);
 
@@ -56,7 +57,7 @@ namespace Toggl.Daneel.ViewControllers
                       .For(v => v.BindCommand())
                       .To(vm => vm.NextCommand);
 
-            bindingSet.Bind(ShowPassword)
+            bindingSet.Bind(ShowPasswordButton)
                       .For(v => v.BindTap())
                       .To(vm => vm.TogglePasswordVisibilityCommand);
 
@@ -70,17 +71,25 @@ namespace Toggl.Daneel.ViewControllers
                       .To(vm => vm.NextIsEnabled);
 
             //Visibility
-            bindingSet.Bind(Email)
+            bindingSet.Bind(EmailTextField)
                       .For(v => v.BindAnimatedVisibility())
                       .To(vm => vm.IsEmailPage);
 
-            bindingSet.Bind(Password)
+            bindingSet.Bind(PasswordTextField)
                       .For(v => v.BindAnimatedVisibility())
                       .To(vm => vm.IsPasswordPage);
 
-            bindingSet.Bind(ShowPassword)
+            bindingSet.Bind(ShowPasswordButton)
                       .For(v => v.BindAnimatedVisibility())
-                      .To(vm => vm.IsPasswordPage);
+                      .To(vm => vm.ShowPasswordButtonVisible);
+
+            bindingSet.Bind(ErrorLabel)
+                      .For(v => v.BindAnimatedVisibility())
+                      .To(vm => vm.HasError);
+
+            bindingSet.Bind(ActivityIndicator)
+                      .For(v => v.BindVisible())
+                      .To(vm => vm.IsLoading);
 
             if (ViewModel.IsPasswordManagerAvailable)
             {
@@ -94,17 +103,17 @@ namespace Toggl.Daneel.ViewControllers
             }
 
             //State
-            bindingSet.Bind(Email)
+            bindingSet.Bind(EmailTextField)
                       .For(v => v.BindFocus())
                       .To(vm => vm.IsEmailPage);
             
-            bindingSet.Bind(Password)
+            bindingSet.Bind(PasswordTextField)
                       .For(v => v.BindFocus())
                       .To(vm => vm.IsPasswordPage);
-            
+
             bindingSet.Apply();
 
-            Email.BecomeFirstResponder();
+            EmailTextField.BecomeFirstResponder();
         }
 
         public override void ViewWillAppear(bool animated)
@@ -125,13 +134,15 @@ namespace Toggl.Daneel.ViewControllers
                 new UIStringAttributes { ForegroundColor = UIColor.White.ColorWithAlpha(0.5f) }.Dictionary
             );
 
-            Email.AttributedPlaceholder = 
+            EmailTextField.TintColor = UIColor.White;
+            EmailTextField.AttributedPlaceholder = 
                 new NSAttributedString(Resources.LoginSignUpEmailPlaceholder, stringAttributes);
 
-            Password.AttributedPlaceholder = 
+            PasswordTextField.TintColor = UIColor.White;
+            PasswordTextField.AttributedPlaceholder = 
                 new NSAttributedString(Resources.LoginSignUpPasswordPlaceholder, stringAttributes);
 
-            ForgotPassword.SetTitle(Resources.LoginForgotPassword, UIControlState.Normal);
+            ForgotPasswordButton.SetTitle(Resources.LoginForgotPassword, UIControlState.Normal);
         }
     }
 }

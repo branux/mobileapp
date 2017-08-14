@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Reactive.Linq;
 using FluentAssertions;
+using Toggl.Multivac.Models;
 using Toggl.Ultrawave.Models;
 using Toggl.Ultrawave.Tests.Integration.BaseTests;
 using Toggl.Ultrawave.Tests.Integration.Helper;
@@ -12,9 +13,9 @@ namespace Toggl.Ultrawave.Tests.Integration
 {
     public class TagsApiTests
     {
-        public class TheGetAllMethod : AuthenticatedGetEndpointBaseTests<List<Tag>>
+        public class TheGetAllMethod : AuthenticatedGetEndpointBaseTests<List<ITag>>
         {
-            protected override IObservable<List<Tag>> CallEndpointWith(ITogglApi togglApi)
+            protected override IObservable<List<ITag>> CallEndpointWith(ITogglApi togglApi)
                 => togglApi.Tags.GetAll();
 
             private readonly string[] tags1 =
@@ -48,7 +49,7 @@ namespace Toggl.Ultrawave.Tests.Integration
                 assertTags(returnedTags, tags2, otherWorkspace.Id);
             }
 
-            private void assertTags(List<Tag> returnedTags, string[] expectedTags, int expectedWorkspaceId)
+            private void assertTags(List<ITag> returnedTags, string[] expectedTags, long expectedWorkspaceId)
             {
                 foreach (var expectedTag in expectedTags)
                 {
@@ -56,7 +57,7 @@ namespace Toggl.Ultrawave.Tests.Integration
                 }
             }
 
-            private TimeEntry createTimeEntry(int userId, int workspaceId, string[] tags) => new TimeEntry
+            private TimeEntry createTimeEntry(long userId, long workspaceId, string[] tags) => new TimeEntry
             {
                 UserId = userId,
                 WorkspaceId = workspaceId,
