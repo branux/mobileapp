@@ -25,9 +25,7 @@ namespace Toggl.Daneel.ViewControllers
 
             DurationLabel.Font = DurationLabel.Font.GetMonospacedDigitFont();
 
-            var size = CGSize.Empty;
-            size.Height = View.Frame.Height;
-            PreferredContentSize = size;
+            PreferredContentSize = new CGSize { Height = View.Frame.Height }; 
 
             resizeSwitch();
 
@@ -40,12 +38,10 @@ namespace Toggl.Daneel.ViewControllers
             var bindingSet = this.CreateBindingSet<EditTimeEntryViewController, EditTimeEntryViewModel>();
 
             //Text
-            bindingSet.Bind(DescriptionLabel)
-                      .To(vm => vm.Description);
-            bindingSet.Bind(ProjectLabel)
-                      .To(vm => vm.Project);
-            bindingSet.Bind(TaskLabel)
-                      .To(vm => vm.Task);
+            bindingSet.Bind(DescriptionLabel).To(vm => vm.Description);
+            bindingSet.Bind(ProjectLabel).To(vm => vm.Project);
+            bindingSet.Bind(TaskLabel).To(vm => vm.Task);
+            bindingSet.Bind(BillableSwitch).To(vm => vm.Billable);
             bindingSet.Bind(DurationLabel)
                       .To(vm => vm.Duration)
                       .WithConversion(durationConverter);
@@ -55,14 +51,10 @@ namespace Toggl.Daneel.ViewControllers
             bindingSet.Bind(StartTimeLabel)
                       .To(vm => vm.StartTime)
                       .WithConversion(timeConverter);
-            bindingSet.Bind(BillableSwitch)
-                      .To(vm => vm.Billable);
             
             //Commands
-            bindingSet.Bind(CloseButton)
-                      .To(vm => vm.CloseCommand);
-            bindingSet.Bind(DeleteButton)
-                      .To(vm => vm.DeleteCommand);
+            bindingSet.Bind(CloseButton).To(vm => vm.CloseCommand);
+            bindingSet.Bind(DeleteButton).To(vm => vm.DeleteCommand);
 
             //Description visibility
             bindingSet.Bind(AddDescriptionView)
