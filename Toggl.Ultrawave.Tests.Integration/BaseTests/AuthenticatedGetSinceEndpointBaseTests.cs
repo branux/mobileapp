@@ -27,7 +27,7 @@ namespace Toggl.Ultrawave.Tests.Integration.BaseTests
 
         protected abstract Expression<Func<T, bool>> ModelWithSameAttributesAs(T model);
 
-        private async Task<(T, T)> setUpModels(ITogglApi api, IUser user)
+        protected async Task<(T, T)> SetUpModels(ITogglApi api, IUser user)
         {
             var firstModel = MakeUniqueModel(api, user);
             var firstModelPosted = await PostModelToApi(api, firstModel);
@@ -45,7 +45,7 @@ namespace Toggl.Ultrawave.Tests.Integration.BaseTests
         public async Task ReturnsAllModelsIfThresholdIsOldestAtDate()
         {
             var (api, user) = await SetupTestUser();
-            var (firstModel, secondModel) = await setUpModels(api, user);
+            var (firstModel, secondModel) = await SetUpModels(api, user);
 
             var models = await CallEndpointWith(api, AtDateOf(firstModel));
 
@@ -58,7 +58,7 @@ namespace Toggl.Ultrawave.Tests.Integration.BaseTests
         public async void ReturnsOnlyModelsWithAtDateNewerOrSameThanThreshold()
         {
             var (api, user) = await SetupTestUser();
-            var (_, secondModel) = await setUpModels(api, user);
+            var (_, secondModel) = await SetUpModels(api, user);
 
             var models = await CallEndpointWith(api, AtDateOf(secondModel));
 
@@ -70,7 +70,7 @@ namespace Toggl.Ultrawave.Tests.Integration.BaseTests
         public async void ReturnsNoModelsIfThresholdIsAfterNewestAtDate()
         {
             var (api, user) = await SetupTestUser();
-            var (_, secondModel) = await setUpModels(api, user);
+            var (_, secondModel) = await SetUpModels(api, user);
 
             var models = await CallEndpointWith(api, AtDateOf(secondModel).AddSeconds(1));
 

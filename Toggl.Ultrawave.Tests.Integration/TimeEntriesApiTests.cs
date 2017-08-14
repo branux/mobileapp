@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
 using FluentAssertions;
@@ -54,6 +55,24 @@ namespace Toggl.Ultrawave.Tests.Integration
                 UserId = user.Id,
                 CreatedWith = "Ultraware Integration Tests"
             };
+        }
+
+        public class TheGetAllSinceMethod : AuthenticatedGetSinceEndpointBaseTests<ITimeEntry>
+        {
+            protected override IObservable<List<ITimeEntry>> CallEndpointWith(ITogglApi togglApi, DateTimeOffset threshold)
+                => togglApi.TimeEntries.GetAllSince(threshold);
+
+            protected override DateTimeOffset AtDateOf(ITimeEntry model)
+                => model.At;
+
+            protected override ITimeEntry MakeUniqueModel(ITogglApi api, IUser user)
+                => new TimeEntry { Description = Guid.NewGuid().ToString(), WorkspaceId = user.DefaultWorkspaceId };
+
+            protected override IObservable<ITimeEntry> PostModelToApi(ITogglApi api, ITimeEntry model)
+                => api.TimeEntries.Create(model);
+
+            protected override Expression<Func<ITimeEntry, bool>> ModelWithSameAttributesAs(ITimeEntry model)
+                => te => te.Id == model.Id && te.Description == model.Description;
         }
 
         public class TheCreateMethod : AuthenticatedPostEndpointBaseTests<ITimeEntry>
