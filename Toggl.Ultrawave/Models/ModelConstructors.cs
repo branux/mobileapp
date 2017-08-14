@@ -146,4 +146,16 @@ namespace Toggl.Ultrawave.Models
             LogoUrl = entity.LogoUrl;
         }
     }
+
+    public sealed partial class WorkspaceFeature
+    {
+        public WorkspaceFeature() { }
+
+        public WorkspaceFeature(IWorkspaceFeature entity)
+        {
+            WorkspaceId = entity.WorkspaceId;
+            FeatureId = entity.FeatureId;
+            Enabled = entity.Enabled;
+        }
+    }
 }

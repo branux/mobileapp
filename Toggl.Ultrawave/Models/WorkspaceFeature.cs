@@ -5,7 +5,7 @@ using Toggl.Multivac.Models;
 
 namespace Toggl.Ultrawave.Models
 {
-    public sealed class WorkspaceFeature : IWorkspaceFeature
+    public sealed partial class WorkspaceFeature : IWorkspaceFeature
     {
         public long WorkspaceId { get; set; }
 
