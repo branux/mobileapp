@@ -41,20 +41,6 @@ namespace Toggl.Ultrawave.Tests.Integration
 
             protected override IObservable<List<ITimeEntry>> CallEndpointWith(ITogglApi togglApi)
                 => togglApi.TimeEntries.GetAll();
-
-            private TimeEntry createTimeEntry(IUser user) => new TimeEntry
-            {
-                WorkspaceId = user.DefaultWorkspaceId,
-                Billable = false,
-                Start = new DateTimeOffset(DateTime.Now),
-                Duration = -1,
-                Description = Guid.NewGuid().ToString(),
-                Tags = new List<string>(),
-                TagIds = new List<int>(),
-                At = new DateTimeOffset(DateTime.Now),
-                UserId = user.Id,
-                CreatedWith = "Ultraware Integration Tests"
-            };
         }
 
         public class TheGetAllSinceMethod : AuthenticatedGetSinceEndpointBaseTests<ITimeEntry>
@@ -66,7 +52,7 @@ namespace Toggl.Ultrawave.Tests.Integration
                 => model.At;
 
             protected override ITimeEntry MakeUniqueModel(ITogglApi api, IUser user)
-                => new TimeEntry { Description = Guid.NewGuid().ToString(), WorkspaceId = user.DefaultWorkspaceId };
+                => createTimeEntry(user);
 
             protected override IObservable<ITimeEntry> PostModelToApi(ITogglApi api, ITimeEntry model)
                 => api.TimeEntries.Create(model);
@@ -103,21 +89,20 @@ namespace Toggl.Ultrawave.Tests.Integration
 
             private IObservable<ITimeEntry> CallEndpointWith(ITogglApi togglApi, TimeEntry client)
                 => togglApi.TimeEntries.Create(client);
-
-            private TimeEntry createTimeEntry(IUser user) => new TimeEntry
-            {
-                WorkspaceId = user.DefaultWorkspaceId,
-                Billable = false,
-                Start = new DateTimeOffset(DateTime.Now),
-                Stop = null,
-                Duration = -1,
-                Description = Guid.NewGuid().ToString(),
-                Tags = new List<string>(),
-                TagIds = new List<int>(),
-                At = new DateTimeOffset(DateTime.Now),
-                UserId = user.Id,
-                CreatedWith = "Ultraware Integration Tests"
-            };
         }
+
+        private static TimeEntry createTimeEntry(IUser user) => new TimeEntry
+        {
+            WorkspaceId = user.DefaultWorkspaceId,
+            Billable = false,
+            Start = new DateTimeOffset(DateTime.Now),
+            Duration = -1,
+            Description = Guid.NewGuid().ToString(),
+            Tags = new List<string>(),
+            TagIds = new List<int>(),
+            At = new DateTimeOffset(DateTime.Now),
+            UserId = user.Id,
+            CreatedWith = "Ultraware Integration Tests"
+        };
     }
 }
