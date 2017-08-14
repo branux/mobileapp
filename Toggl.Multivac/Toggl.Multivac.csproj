@@ -38,7 +38,6 @@
     <Compile Include="Models\ITag.cs" />
     <Compile Include="Models\IClient.cs" />
     <Compile Include="Models\IWorkspace.cs" />
-    <Compile Include="Models\IWorkspaceFeature.cs" />
     <Compile Include="Models\ITask.cs" />
     <Compile Include="Models\IProject.cs" />
     <Compile Include="Models\ITimeEntry.cs" />
@@ -49,6 +48,7 @@
     <Compile Include="WorkspaceFeatureId.cs" />
     <Compile Include="Extensions\ObservableCollectionExtensions.cs" />
     <Compile Include="Extensions\ObservableExtensions.cs" />
+    <Compile Include="SpecificModels\IWorkspaceFeature.cs" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
@@ -57,6 +57,9 @@
   <ItemGroup>
     <Analyzer Include="..\packages\StyleCop.Analyzers.1.0.2\analyzers\dotnet\cs\StyleCop.Analyzers.CodeFixes.dll" />
     <Analyzer Include="..\packages\StyleCop.Analyzers.1.0.2\analyzers\dotnet\cs\StyleCop.Analyzers.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="SpecificModels\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
 </Project>
