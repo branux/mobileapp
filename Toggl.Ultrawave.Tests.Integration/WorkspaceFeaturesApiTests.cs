@@ -86,34 +86,5 @@ namespace Toggl.Ultrawave.Tests.Integration
                 unusedWorkspaceFeatures.Should().HaveCount(0);
             }
         }
-
-        public class TheIsFeatureEnabledMethod : AuthenticatedEndpointBaseTests<bool>
-        {
-            protected override IObservable<bool> CallEndpointWith(ITogglApi togglApi)
-                => Observable.Defer(async () =>
-                {
-                    var user = await togglApi.User.Get();
-                    return CallEndpointWith(togglApi, user.DefaultWorkspaceId, WorkspaceFeatureId.Free);
-                });
-
-            protected IObservable<bool> CallEndpointWith(ITogglApi togglApi, long workspaceId, WorkspaceFeatureId featureId)
-                => togglApi.WorkspaceFeatures.IsFeatureEnabled(workspaceId, featureId);
-
-            [Fact, LogTestInfo]
-            public async Task ReturnsEnabledWorkspaceFeatures()
-            {
-                var (togglClient, user) = await SetupTestUser();
-
-                var isFree = await CallEndpointWith(togglClient, user.DefaultWorkspaceId, WorkspaceFeatureId.Free);
-                var isPro = await CallEndpointWith(togglClient, user.DefaultWorkspaceId, WorkspaceFeatureId.Pro);
-                var supportsLabourCost = await CallEndpointWith(togglClient, user.DefaultWorkspaceId, WorkspaceFeatureId.LabourCost);
-                var supportsTrackingReminders = await CallEndpointWith(togglClient, user.DefaultWorkspaceId, WorkspaceFeatureId.TrackingReminders);
-
-                isFree.Should().BeTrue();
-                isPro.Should().BeFalse();
-                supportsLabourCost.Should().BeFalse();
-                supportsTrackingReminders.Should().BeFalse();
-            }
-        }
     }
 }

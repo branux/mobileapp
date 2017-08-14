@@ -49,17 +49,6 @@ namespace Toggl.Ultrawave.ApiClients
                     .ToList());
         }
 
-        public IObservable<bool> IsFeatureEnabled(long workspaceId, WorkspaceFeatureId featureId)
-        {
-            // Is this an overkill to ask for all features only to check one!?
-
-            return CreateObservable<List<WorkspaceFeatureCollectionDTO>>(endPoints.Get, AuthHeader)
-                .Select(list => list
-                    .Where(wf => wf.WorkspaceId == workspaceId)
-                    .ToWorkspaceFeatures()
-                    .Any(wf => wf.FeatureId == featureId && wf.Enabled));
-        }
-
         public IObservable<List<(WorkspaceFeatureId FeatureId, string Name)>> GetAllRaw()
         {
             return CreateObservable<List<WorkspaceFeatureCollectionDTO>>(endPoints.Get, AuthHeader)
