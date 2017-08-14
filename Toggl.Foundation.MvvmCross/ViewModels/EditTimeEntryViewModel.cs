@@ -20,6 +20,7 @@ namespace Toggl.Foundation.MvvmCross.ViewModels
         private readonly ITimeService timeService;
 
         private IDisposable deleteDisposable;
+        private IDisposable tickingDisposable;
 
         public long Id { get; set; }
 
@@ -35,7 +36,17 @@ namespace Toggl.Foundation.MvvmCross.ViewModels
 
         public DateTimeOffset StartTime { get; set; }
 
-        public DateTimeOffset? EndTime { get; set; }
+        private DateTimeOffset? endTime;
+        public DateTimeOffset? EndTime
+        {
+            get => endTime;
+            set
+            {
+                endTime = value;
+                if (endTime != null)
+                    tickingDisposable.Dispose();
+            }
+        }
 
         public List<string> Tags { get; set; }
 
@@ -60,8 +71,6 @@ namespace Toggl.Foundation.MvvmCross.ViewModels
             DeleteCommand = new MvxCommand(delete);
             ConfirmCommand = new MvxCommand(confirm);
             CloseCommand = new MvxAsyncCommand(close);
-
-            timeService.CurrentDateTimeObservable.Subscribe(_ => RaisePropertyChanged(nameof(Duration)));
         }
 
         public override async Task Initialize(ITimeEntry parameter)
@@ -73,10 +82,21 @@ namespace Toggl.Foundation.MvvmCross.ViewModels
             StartTime = parameter.Start;
             EndTime = parameter.Stop;
             Billable = parameter.Billable;
-            Tags = parameter.Tags.ToList();
-
+            Tags = parameter.Tags?.ToList() ?? new List<string>();
+            
             if (parameter.ProjectId != null)
                 Project = (await dataSource.Projects.GetById((int)parameter.ProjectId)).Name;
+        }
+
+        public override async Task Initialize()
+        {
+            await base.Initialize();
+            
+            if (EndTime == null)
+                tickingDisposable = timeService
+                    .CurrentDateTimeObservable
+                    .Subscribe(_ => RaisePropertyChanged(nameof(Duration )));
+                
         }
 
         private void delete()
