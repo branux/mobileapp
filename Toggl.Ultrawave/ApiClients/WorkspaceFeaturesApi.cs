@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Collections.Generic;
 using Toggl.Multivac;
+using Toggl.Multivac.Models;
 using Toggl.Ultrawave.Models;
 using Toggl.Ultrawave.Network;
 using Toggl.Ultrawave.Serialization;
@@ -21,14 +22,14 @@ namespace Toggl.Ultrawave.ApiClients
             this.endPoints = endPoints;
         }
 
-        public IObservable<List<WorkspaceFeature>> GetAll()
+        public IObservable<List<IWorkspaceFeature>> GetAll()
         {
             return CreateObservable<List<WorkspaceFeatureCollectionDTO>>(endPoints.Get, AuthHeader)
                 .Select(list =>
                     list.ToWorkspaceFeatures().ToList());
         }
 
-        public IObservable<List<WorkspaceFeature>> GetEnabledFeatures()
+        public IObservable<List<IWorkspaceFeature>> GetEnabledFeatures()
         {
             return CreateObservable<List<WorkspaceFeatureCollectionDTO>>(endPoints.Get, AuthHeader)
                 .Select(list =>
@@ -37,7 +38,7 @@ namespace Toggl.Ultrawave.ApiClients
                         .ToList());
         }
 
-        public IObservable<List<WorkspaceFeature>> GetEnabledFeaturesForWorkspace(long workspaceId)
+        public IObservable<List<IWorkspaceFeature>> GetEnabledFeaturesForWorkspace(long workspaceId)
         {
             return CreateObservable<List<WorkspaceFeatureCollectionDTO>>(endPoints.Get, AuthHeader)
                 .Select(list => list
@@ -80,12 +81,12 @@ namespace Toggl.Ultrawave.ApiClients
 
     internal static class WorkspaceFeatureCollectionExtensions
     {
-        internal static IEnumerable<WorkspaceFeature> ToWorkspaceFeatures(this IEnumerable<WorkspaceFeatureCollectionDTO> collection)
+        internal static IEnumerable<IWorkspaceFeature> ToWorkspaceFeatures(this IEnumerable<WorkspaceFeatureCollectionDTO> collection)
             => collection
             .SelectMany(wf => wf.Features.Select(f => f.ToWorkspaceFeature(wf.WorkspaceId)))
             .ToList();
 
-        internal static WorkspaceFeature ToWorkspaceFeature(this WorkspaceFeatureDTO feature, long workspaceId)
+        internal static IWorkspaceFeature ToWorkspaceFeature(this WorkspaceFeatureDTO feature, long workspaceId)
             => new WorkspaceFeature
             {
                 WorkspaceId = workspaceId,

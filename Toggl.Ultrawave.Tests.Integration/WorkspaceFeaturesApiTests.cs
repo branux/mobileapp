@@ -7,6 +7,7 @@ using FluentAssertions;
 using Toggl.Ultrawave.Tests.Integration.BaseTests;
 using Xunit;
 using Toggl.Multivac;
+using Toggl.Multivac.Models;
 using System.Diagnostics;
 using WorkspaceFeature = Toggl.Ultrawave.Models.WorkspaceFeature;
 using Toggl.Ultrawave.ApiClients;
@@ -16,9 +17,9 @@ namespace Toggl.Ultrawave.Tests.Integration
 {
     public class WorkspaceFeaturesApiTests
     {
-        public class TheGetAllMethod : AuthenticatedEndpointBaseTests<List<WorkspaceFeature>>
+        public class TheGetAllMethod : AuthenticatedEndpointBaseTests<List<IWorkspaceFeature>>
         {
-            protected override IObservable<List<WorkspaceFeature>> CallEndpointWith(ITogglApi togglApi)
+            protected override IObservable<List<IWorkspaceFeature>> CallEndpointWith(ITogglApi togglApi)
                 => togglApi.WorkspaceFeatures.GetAll();
 
             [Fact, LogTestInfo]
@@ -37,9 +38,9 @@ namespace Toggl.Ultrawave.Tests.Integration
             }
         }
 
-        public class TheGetEnabledFeaturesMethod : AuthenticatedEndpointBaseTests<List<WorkspaceFeature>>
+        public class TheGetEnabledFeaturesMethod : AuthenticatedEndpointBaseTests<List<IWorkspaceFeature>>
         {
-            protected override IObservable<List<WorkspaceFeature>> CallEndpointWith(ITogglApi togglApi)
+            protected override IObservable<List<IWorkspaceFeature>> CallEndpointWith(ITogglApi togglApi)
                 => togglApi.WorkspaceFeatures.GetEnabledFeatures();
 
             [Fact, LogTestInfo]
@@ -57,16 +58,16 @@ namespace Toggl.Ultrawave.Tests.Integration
             }
         }
 
-        public class TheGetEnabledFeaturesForWorkspaceMethod : AuthenticatedEndpointBaseTests<List<WorkspaceFeature>>
+        public class TheGetEnabledFeaturesForWorkspaceMethod : AuthenticatedEndpointBaseTests<List<IWorkspaceFeature>>
         {
-            protected override IObservable<List<WorkspaceFeature>> CallEndpointWith(ITogglApi togglApi)
+            protected override IObservable<List<IWorkspaceFeature>> CallEndpointWith(ITogglApi togglApi)
                 => Observable.Defer(async () =>
                 {
                     var user = await togglApi.User.Get();
                     return CallEndpointWith(togglApi, user.DefaultWorkspaceId);
                 });
 
-            protected IObservable<List<WorkspaceFeature>> CallEndpointWith(ITogglApi togglApi, long workspaceId)
+            protected IObservable<List<IWorkspaceFeature>> CallEndpointWith(ITogglApi togglApi, long workspaceId)
                 => togglApi.WorkspaceFeatures.GetEnabledFeaturesForWorkspace(workspaceId);
 
             [Fact, LogTestInfo]
