@@ -8,10 +8,6 @@ using Toggl.Ultrawave.Tests.Integration.BaseTests;
 using Xunit;
 using Toggl.Multivac;
 using Toggl.Multivac.Models;
-using System.Diagnostics;
-using WorkspaceFeature = Toggl.Ultrawave.Models.WorkspaceFeature;
-using Toggl.Ultrawave.ApiClients;
-using static Toggl.Ultrawave.ApiClients.WorkspaceFeaturesApi;
 
 namespace Toggl.Ultrawave.Tests.Integration
 {
