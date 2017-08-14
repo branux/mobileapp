@@ -1,5 +1,5 @@
 ﻿using CoreGraphics;
-using MvvmCross.Binding;
+using Toggl.Daneel.Extensions;
 using MvvmCross.Binding.BindingContext;
 using MvvmCross.Binding.iOS;
 using MvvmCross.iOS.Views;
@@ -22,6 +22,8 @@ namespace Toggl.Daneel.ViewControllers
         public override void ViewDidLoad()
         {
             base.ViewDidLoad();
+
+            DurationLabel.Font = DurationLabel.Font.GetMonospacedDigitFont();
 
             var size = CGSize.Empty;
             size.Height = View.Frame.Height;
