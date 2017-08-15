@@ -16,13 +16,13 @@ namespace Toggl.Ultrawave.Tests.Integration
 {
     public class WorkspaceFeaturesIdEnumTests
     {
-        public class BackendEnumValuesCheckTest : AuthenticatedEndpointBaseTests<List<(WorkspaceFeatureId FeatureId, string Name)>>
+        public class TheGetAllRawMethod : AuthenticatedEndpointBaseTests<List<(WorkspaceFeatureId FeatureId, string Name)>>
         {
             protected override IObservable<List<(WorkspaceFeatureId FeatureId, string Name)>> CallEndpointWith(ITogglApi togglApi)
                 => (togglApi.WorkspaceFeatures as WorkspaceFeaturesApi).GetAllRaw();
 
             [Fact, LogTestInfo]
-            public async Task TestsWhetherEnumValuesMatchBackendResponse()
+            public async Task EnumValuesMatchBackendResponse()
             {
                 var (togglClient, user) = await SetupTestUser();
 				var enumFeatures = Enum
