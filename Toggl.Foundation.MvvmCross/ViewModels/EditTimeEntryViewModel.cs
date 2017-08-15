@@ -91,13 +91,9 @@ namespace Toggl.Foundation.MvvmCross.ViewModels
             EndTime = parameter.Stop;
             Billable = parameter.Billable;
             Tags = parameter.Tags?.ToList() ?? new List<string>();
-            
-            if (parameter.ProjectId != null)
-            {
-                Project = parameter.Project.Name;
-                ProjectColor = parameter.Project.Color;
-                
-            }
+            Project = parameter?.Project?.Name;
+            ProjectColor = parameter?.Project?.Color;
+            Task = parameter?.Task?.Name;
         }
 
         public override async Task Initialize()
