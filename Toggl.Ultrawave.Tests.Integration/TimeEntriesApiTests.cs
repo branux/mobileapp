@@ -64,7 +64,7 @@ namespace Toggl.Ultrawave.Tests.Integration
         public class TheCreateMethod : AuthenticatedPostEndpointBaseTests<ITimeEntry>
         {
             [Fact, LogTestInfo]
-            public async Task CreatesNewClient()
+            public async Task CreatesNewTimeEntry()
             {
                 var (togglClient, user) = await SetupTestUser();
                 var newTimeEntry = createTimeEntry(user);
@@ -74,7 +74,6 @@ namespace Toggl.Ultrawave.Tests.Integration
                 persistedTimeEntry.Description.Should().Be(newTimeEntry.Description);
                 persistedTimeEntry.WorkspaceId.Should().Be(newTimeEntry.WorkspaceId);
                 persistedTimeEntry.Billable.Should().Be(false);
-                persistedTimeEntry.Duration.Should().BeNegative();
                 persistedTimeEntry.ProjectId.Should().BeNull();
                 persistedTimeEntry.TaskId.Should().BeNull();
             }
@@ -95,13 +94,11 @@ namespace Toggl.Ultrawave.Tests.Integration
         {
             WorkspaceId = user.DefaultWorkspaceId,
             Billable = false,
-            Start = new DateTimeOffset(DateTime.Now),
+            Start = new DateTimeOffset(DateTime.Now - TimeSpan.FromMinutes(5)),
             Stop = new DateTimeOffset(DateTime.Now),
-            Duration = -1,
             Description = Guid.NewGuid().ToString(),
             Tags = new List<string>(),
             TagIds = new List<int>(),
-            At = new DateTimeOffset(DateTime.Now),
             UserId = user.Id,
             CreatedWith = "Ultraware Integration Tests"
         };
