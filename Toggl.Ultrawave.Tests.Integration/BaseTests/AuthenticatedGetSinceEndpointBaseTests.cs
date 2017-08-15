@@ -74,7 +74,7 @@ namespace Toggl.Ultrawave.Tests.Integration.BaseTests
 
             var models = await CallEndpointWith(api, AtDateOf(secondModel).AddSeconds(1));
 
-            models.Should().HaveCount(0);
+            models?.Should().HaveCount(0);
         }
 
         [Fact, LogTestInfo]

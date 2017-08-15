@@ -96,6 +96,7 @@ namespace Toggl.Ultrawave.Tests.Integration
             WorkspaceId = user.DefaultWorkspaceId,
             Billable = false,
             Start = new DateTimeOffset(DateTime.Now),
+            Stop = new DateTimeOffset(DateTime.Now),
             Duration = -1,
             Description = Guid.NewGuid().ToString(),
             Tags = new List<string>(),
