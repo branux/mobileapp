@@ -44,11 +44,15 @@ namespace Toggl.Foundation.MvvmCross.ViewModels
             get => endTime;
             set
             {
+                if (endTime == value) return;
                 endTime = value;
-                if (endTime == null)
-                    subscribeToTimeServiceTicks();
-                else
-                    tickingDisposable.Dispose();
+                if (endTime != null)
+                {
+                    tickingDisposable?.Dispose();
+                    tickingDisposable = null;
+                    return;
+                }
+                subscribeToTimeServiceTicks();
             }
         }
 
