@@ -22,11 +22,9 @@ namespace Toggl.Ultrawave.Tests.Integration
             public async Task ReturnsAllWorkspaceFeatures()
             {
                 var (togglClient, user) = await SetupTestUser();
+				var featuresInEnum = Enum.GetValues(typeof(WorkspaceFeatureId));
 
                 var features = await CallEndpointWith(togglClient);
-
-                var featuresInEnum = Enum.GetValues(typeof(WorkspaceFeatureId));
-
                 var distinctWorkspacesCount = features.Select(f => f.WorkspaceId).Distinct().Count();
 
                 features.Should().HaveCount(featuresInEnum.Length);

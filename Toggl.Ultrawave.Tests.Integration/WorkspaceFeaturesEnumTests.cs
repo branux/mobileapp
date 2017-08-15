@@ -25,20 +25,16 @@ namespace Toggl.Ultrawave.Tests.Integration
             public async Task TestsWhetherEnumValuesMatchBackendResponse()
             {
                 var (togglClient, user) = await SetupTestUser();
+				var enumFeatures = Enum
+					.GetValues(typeof(WorkspaceFeatureId))
+					.OfType<WorkspaceFeatureId>()
+					.ToDictionary(wf => wf, wf => wf.ToString());
 
                 var workspaceFeaturesCollections = await (togglClient.WorkspaceFeatures as WorkspaceFeaturesApi).GetAllRaw();
-
-                var distinctResponseFeatures =
-                    workspaceFeaturesCollections
+                var distinctResponseFeatures = workspaceFeaturesCollections
                     .ToDictionary(wf => wf.FeatureId, wf => wf.Name.ToPascalCase());
 
-                var enumFeatures = Enum
-                    .GetValues(typeof(WorkspaceFeatureId))
-                    .OfType<WorkspaceFeatureId>()
-                    .ToDictionary(wf => wf, wf => wf.ToString());
-
                 distinctResponseFeatures.Should().HaveCount(enumFeatures.Count);
-
                 foreach (var featureId in distinctResponseFeatures.Keys)
                 {
                     string enumName = enumFeatures[featureId];
