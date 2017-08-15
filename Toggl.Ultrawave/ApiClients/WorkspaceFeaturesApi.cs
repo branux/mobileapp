@@ -25,9 +25,7 @@ namespace Toggl.Ultrawave.ApiClients
         public IObservable<List<IWorkspaceFeature>> GetAll()
         {
             return CreateObservable<List<WorkspaceFeatureCollectionDTO>>(endPoints.Get, AuthHeader)
-                .Select(list => list
-                    .ToWorkspaceFeatures()
-                    .ToList());
+                .Select(list => list.ToWorkspaceFeatures());
         }
 
         public IObservable<List<(WorkspaceFeatureId FeatureId, string Name)>> GetAllRaw()
@@ -56,7 +54,7 @@ namespace Toggl.Ultrawave.ApiClients
 
     internal static class WorkspaceFeatureCollectionExtensions
     {
-        internal static IEnumerable<IWorkspaceFeature> ToWorkspaceFeatures(this IEnumerable<WorkspaceFeatureCollectionDTO> collection)
+        internal static List<IWorkspaceFeature> ToWorkspaceFeatures(this IEnumerable<WorkspaceFeatureCollectionDTO> collection)
             => collection
             .SelectMany(wf => wf.Features.Select(f => f.ToWorkspaceFeature(wf.WorkspaceId)))
             .ToList();
