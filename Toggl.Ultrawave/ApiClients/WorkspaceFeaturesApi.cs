@@ -30,25 +30,6 @@ namespace Toggl.Ultrawave.ApiClients
                     .ToList());
         }
 
-        public IObservable<List<IWorkspaceFeature>> GetEnabledFeatures()
-        {
-            return CreateObservable<List<WorkspaceFeatureCollectionDTO>>(endPoints.Get, AuthHeader)
-                .Select(list =>
-                    list.ToWorkspaceFeatures()
-                        .Where(wf => wf.Enabled)
-                        .ToList());
-        }
-
-        public IObservable<List<IWorkspaceFeature>> GetEnabledFeaturesForWorkspace(long workspaceId)
-        {
-            return CreateObservable<List<WorkspaceFeatureCollectionDTO>>(endPoints.Get, AuthHeader)
-                .Select(list => list
-                    .Where(wf => wf.WorkspaceId == workspaceId)
-                    .ToWorkspaceFeatures()
-                    .Where(wf => wf.Enabled)
-                    .ToList());
-        }
-
         public IObservable<List<(WorkspaceFeatureId FeatureId, string Name)>> GetAllRaw()
         {
             return CreateObservable<List<WorkspaceFeatureCollectionDTO>>(endPoints.Get, AuthHeader)
