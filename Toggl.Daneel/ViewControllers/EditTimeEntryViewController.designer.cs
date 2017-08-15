@@ -25,6 +25,9 @@ namespace Toggl.Daneel.ViewControllers
 		UIKit.UISwitch BillableSwitch { get; set; }
 
 		[Outlet]
+		UIKit.UILabel ClientLabel { get; set; }
+
+		[Outlet]
 		UIKit.UIButton CloseButton { get; set; }
 
 		[Outlet]
@@ -53,15 +56,12 @@ namespace Toggl.Daneel.ViewControllers
 
 		[Outlet]
 		UIKit.UILabel TagsLabel { get; set; }
-
-		[Outlet]
-		UIKit.UILabel TaskLabel { get; set; }
 		
 		void ReleaseDesignerOutlets ()
 		{
-			if (TagsLabel != null) {
-				TagsLabel.Dispose ();
-				TagsLabel = null;
+			if (ClientLabel != null) {
+				ClientLabel.Dispose ();
+				ClientLabel = null;
 			}
 
 			if (AddDescriptionView != null) {
@@ -129,9 +129,9 @@ namespace Toggl.Daneel.ViewControllers
 				StartTimeLabel = null;
 			}
 
-			if (TaskLabel != null) {
-				TaskLabel.Dispose ();
-				TaskLabel = null;
+			if (TagsLabel != null) {
+				TagsLabel.Dispose ();
+				TagsLabel = null;
 			}
 		}
 	}

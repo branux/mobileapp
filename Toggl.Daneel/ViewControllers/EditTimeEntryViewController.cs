@@ -38,11 +38,11 @@ namespace Toggl.Daneel.ViewControllers
             var colorConverter = new MvxRGBValueConverter();
 
             var bindingSet = this.CreateBindingSet<EditTimeEntryViewController, EditTimeEntryViewModel>();
-
+            
             //Text
             bindingSet.Bind(DescriptionLabel).To(vm => vm.Description);
             bindingSet.Bind(ProjectLabel).To(vm => vm.Project);
-            bindingSet.Bind(TaskLabel).To(vm => vm.Task);
+            bindingSet.Bind(ClientLabel).To(vm => vm.Client);
             bindingSet.Bind(BillableSwitch).To(vm => vm.Billable);
             bindingSet.Bind(DurationLabel)
                       .To(vm => vm.Duration)
